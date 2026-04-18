@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify
 import sqlite3
 import json
+import re
 
 # create the backend application, which only works with the database
 backend_app = Flask(__name__)
@@ -35,7 +36,27 @@ def create_dest():
     dest_name = data[0].get("name")
     dest_cost = data[0].get("estimated_cost")
     dest_info = data[0].get("additional_info")
-    # TODO: Input validation on all fields prior to database insertion!
+
+    if not dest_name or not dest_cost or not dest_info:
+        return jsonify({"error": "Missing required fields"}), 400  
+    
+    if len(dest_name) > 20:
+        return jsonify({"error": "Destination name is too long"}), 400
+    
+    if len(dest_info) > 100:
+        return jsonify({"error": "Additional info is too long"}), 400
+    
+    if (not re.match(r'^[a-zA-Z0-9\s]+$', dest_name) or not re.match(r'^[a-zA-Z0-9\s]+$', dest_info)):
+        return jsonify({"error": "Invalid characters"}), 400
+    
+    try:
+        dest_cost = int(dest_cost)
+        if dest_cost < 0:
+            return jsonify({"error": "Estimated cost must be a positive integer"}), 400
+        if dest_cost > 100000:
+            return jsonify({"error": "Estimated cost is too high"}), 400
+    except ValueError:
+        return jsonify({"error": "Estimated cost must be an integer"}), 400
 
     # Connect to DB and insert information
     conn = get_db_connection()

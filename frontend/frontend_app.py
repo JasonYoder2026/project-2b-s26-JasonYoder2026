@@ -42,7 +42,6 @@ def new_destination():
         dest_name = request.form.get('dest_name')
         dest_cost = request.form.get('dest_cost')
         dest_info = request.form.get('dest_info')
-        # TODO: validate the form information before making the backend request
 
         # build json with requested data
         new_dest = [{
