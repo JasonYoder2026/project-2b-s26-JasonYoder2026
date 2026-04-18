@@ -42,3 +42,7 @@ def create_dest():
     conn.commit()
     conn.close()
     return jsonify({"name": dest_name}), 201  # creates response json, returns HTTP response 201
+
+
+if __name__ == '__main__':
+    backend_app.run(port=5001)

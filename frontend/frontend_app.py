@@ -51,3 +51,6 @@ def new_destination():
         response = requests.post(backend_url + "/api/new", json=new_dest)
         # Give the user a message
         return f'<h1>Your form was submitted to add {dest_name}. <a href="/home">Continue</a></h1>'
+
+if __name__ == '__main__':
+    frontend_app.run()
