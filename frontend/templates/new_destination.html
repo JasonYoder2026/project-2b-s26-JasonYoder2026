@@ -64,21 +64,78 @@
     <form method="POST">
         <div class="form-group">
             <label for="dest_name">Destination Name</label>
-            <input type="text" id="dest_name" name="dest_name" required>
+            <input 
+                type="text" 
+                id="dest_name" 
+                name="dest_name" 
+                required
+                maxlength="20"
+                pattern="^[a-zA-Z0-9\s]+$">
         </div>
 
         <div class="form-group">
             <label for="dest_cost">Estimated Cost ($)</label>
-            <input type="number" id="dest_cost" name="dest_cost" required>
+            <input 
+                type="number" 
+                id="dest_cost" 
+                name="dest_cost" 
+                required
+                min="1"
+                max="100000"
+                step="1">
         </div>
 
         <div class="form-group">
             <label for="dest_info">Additional Information</label>
-            <textarea id="dest_info" name="dest_info" required></textarea>
+            <textarea 
+                id="dest_info" 
+                name="dest_info" 
+                required
+                pattern="^[a-zA-Z0-9\s.,!?'-]+$">
+            </textarea>
         </div>
 
         <button type="submit">Submit</button>
     </form>
 </div>
+
+<script>
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (e) {
+        let errors = [];
+
+        const name = document.getElementById("dest_name");
+        const cost = document.getElementById("dest_cost");
+        const info = document.getElementById("dest_info");
+
+        // Name validation
+        if (name.value.length > 20) {
+            errors.push("Destination name must be 20 characters or less.");
+        }
+        if (!/^[a-zA-Z0-9\s]+$/.test(name.value)) {
+            errors.push("Destination name can only contain letters, numbers, and spaces.");
+        }
+
+        // Cost validation
+        const costValue = Number(cost.value);
+        if (!Number.isInteger(costValue)) {
+            errors.push("Cost must be a whole number.");
+        }
+        if (costValue <= 0 || costValue >= 100000) {
+            errors.push("Cost must be between 1 and 99,999.");
+        }
+
+        // Info validation
+        if (!/^[a-zA-Z0-9\s.,!?'\-]+$/.test(info.value)) {
+            errors.push("Additional info contains invalid characters.");
+        }
+
+        if (errors.length > 0) {
+            e.preventDefault();
+            alert(errors.join("\n"));
+        }
+    });
+</script>
 
 {% endblock %}
