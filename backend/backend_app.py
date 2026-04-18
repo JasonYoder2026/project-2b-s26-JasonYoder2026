@@ -31,17 +31,19 @@ def get_all():
 @backend_app.route("/api/new", methods=["POST"])
 def create_dest():
     # get info from POST request
-    data = request.get_json()  # parses incoming json
+    data = request.get_json()
     dest_name = data[0].get("name")
+    dest_cost = data[0].get("estimated_cost")
+    dest_info = data[0].get("additional_info")
     # TODO: Input validation on all fields prior to database insertion!
 
     # Connect to DB and insert information
     conn = get_db_connection()
-    conn.execute('INSERT INTO destinations (name, photo) VALUES (?, ?)',
-                 (dest_name, "none"))
+    conn.execute('INSERT INTO destinations (name, estimated_cost, additional_info) VALUES (?, ?, ?)',
+                 (dest_name, dest_cost, dest_info))
     conn.commit()
     conn.close()
-    return jsonify({"name": dest_name}), 201  # creates response json, returns HTTP response 201
+    return jsonify({"name": dest_name, "cost": dest_cost, "info": dest_info}), 201  # creates response json, returns HTTP response 201
 
 
 if __name__ == '__main__':
