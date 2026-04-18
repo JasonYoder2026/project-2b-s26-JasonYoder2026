@@ -39,7 +39,7 @@ def create_dest():
 
     # Connect to DB and insert information
     conn = get_db_connection()
-    conn.execute('INSERT INTO destinations (name, estimated_cost, additional_info) VALUES (?, ?, ?, ?)',
+    conn.execute('INSERT INTO destinations (name, estimated_cost, additional_info) VALUES (?, ?, ?)',
                  (dest_name, dest_cost, dest_info))
     conn.commit()
     conn.close()
