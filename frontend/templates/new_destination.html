@@ -6,6 +6,10 @@
     <form method="POST">
         <label for="dest_name">Enter Destination Name:</label>
         <input type="text" id="dest_name" name="dest_name" required>
+        <label for="dest_cost">Enter Estimated Cost:</label>
+        <input type="number" id="dest_cost" name="dest_cost" required>
+        <label for="dest_info">Enter Additional Information:</label>
+        <textarea id="dest_info" name="dest_info" required></textarea>
         <button type="submit">Submit</button>
     </form>
 {% endblock %}

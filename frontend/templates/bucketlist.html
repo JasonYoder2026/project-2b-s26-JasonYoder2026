@@ -10,7 +10,8 @@
         {% endif %}
         <div class="card-body text-center">
             <h5 class="card-title">{{ each_place.name }}</h5>
-            <!-- TODO: Add additional fields here -->
+            <h6 class="card-subtitle mb-2 text-muted">${{ each_place.estimated_cost }}</h6>
+            <p class="card-text">{{ each_place.additional_info }}</p>
         </div>
     </div>
     {% endfor %}
