@@ -40,12 +40,15 @@ def new_destination():
     if request.method == "POST":
         # Retrieve data from the form using the 'name' attribute
         dest_name = request.form.get('dest_name')
+        dest_cost = request.form.get('dest_cost')
+        dest_info = request.form.get('dest_info')
         # TODO: validate the form information before making the backend request
 
         # build json with requested data
         new_dest = [{
             "name": dest_name,
-            "photo": "none"
+            "estimated_cost": dest_cost,
+            "additional_info": dest_info
         }]
         # send a POST request to the backend to create a new entry
         response = requests.post(backend_url + "/api/new", json=new_dest)
